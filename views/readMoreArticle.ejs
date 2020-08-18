@@ -1,0 +1,29 @@
+<%- include('parts/header')%>
+
+<title>Welcome</title>
+</head>
+<body>
+<%- include('parts/nav')%>
+
+<div class="container py-5">
+    <div class="row">
+        <%for(let res=0; res < result.length;res++){%>
+            <div class="col-md-7 py-3 m-auto">
+                <div class="card w-75 m-auto shadow text-center h-100">
+                    <div class="card-header">
+                        <%= result[res].articleTitle%>
+                    </div>
+                    <div class="card-body p-4">
+                        <p class="card-text text-left my-2"><%= result[res].articleContent%></p>
+                        
+                    </div>
+                    <div class="card-footer text-muted d-flex justify-content-between">
+                        <small ><%= result[res].publishDate%> </small>
+                       
+                    </div>
+                </div>
+            </div>
+        <%}%>
+    </div>
+</div>
+<%- include('parts/footer')%>

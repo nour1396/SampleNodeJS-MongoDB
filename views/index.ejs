@@ -1,0 +1,69 @@
+<%- include('./parts/header')%>
+
+<title>Welcome</title>
+</head>
+<body>
+<%- include('./parts/nav')%>
+
+<div class="container">
+    
+        <div class="row">
+            <!--search -->
+            <div class="col-md-10">
+                <form action="/search" method="GET" enctype="multipart/form-data ">
+                    <input class="form-control w-50 d-inline " type="search" placeholder="Search" name="search" aria-label="Search">
+                    <!--<select class="form-control w-25 d-inline" name="searchType" multiple>
+                        <option value="articleTitle">article title</option>
+                        <option value="articleContent">article content</option>
+                    </select>-->
+                    <div class="form-group d-inline px-3">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="searchType" value="articleTitle">
+                            <label class="form-check-label" for="inlineCheckbox1">articleTitle</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="searchType" value="articleContent">
+                            <label class="form-check-label" for="inlineCheckbox2">articleContent</label>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-warning " type="submit">Search</button>
+                </form> 
+            </div>
+            <!-- form of article modal -->
+            <div class="col-md-2">
+                <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#addNewArticle">
+                    add New article
+                </button>
+                <%- include('./addArticleModal')%>
+            </div>
+        </div>
+</div>
+
+<div class="container py-5">
+    <div class="row">
+        <%for(let res=0; res < result.length;res++){%>
+            <div class="col-md-4 py-3">
+                <div class="card shadow text-center h-100">
+                    <div class="card-header font-weight-bold ">
+                        <%= result[res].articleTitle%>
+                    </div>
+                    <div class="card-body">
+                            <img src="\<%= result[res].imageUploaded%>" class="card-img-top w-100 rounded rounded-lg">
+                        <p class="card-text text-left my-2 articleContent"><%= result[res].articleContent%></p>
+                        
+                    </div>
+                    <div class="mb-3">
+                        <a href="/readMore/<%= result[res]._id%>" class="btn btn-dark py-1 px-2 text-capitalize">read More </a>
+                        <a href="/edit/<%= result[res]._id%>" class="btn btn-secondary py-1 px-2 text-capitalize">edit</a>
+                        <a href="/delete/<%= result[res]._id%>" class="btn btn-danger py-1 px-2 text-capitalize">delete</a>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between text-muted">
+                        <small ><%= result[res].publishDate%> </small>
+                    </div>
+                </div>
+            </div>
+        <%}%>
+    </div>
+</div>
+
+<%- include('./parts/footer')%>

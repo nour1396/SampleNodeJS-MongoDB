@@ -1,0 +1,31 @@
+
+<!-- Modal -->
+<div class="modal fade" id="addNewArticle" tabindex="-1" role="dialog" aria-labelledby="addNewarticleLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content w-50 m-auto">
+            <div class="modal-header">
+                <h5 class="modal-title text-capitalize font-weight-bold" id="addNewarticleLabel">new article</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/addNewarticle" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                        <div class="container p-5">
+                            <input type="text" class="form-control my-1" name="articleTitle" placeholder="enter title of article">
+                            <textarea rows="10" class="form-control my-1" name="articleContent" placeholder="enter article Content"></textarea>
+                            <div class="input-group mb-3">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputGroupFile01" name="imageUploaded" aria-describedby="inputGroupFileAddon01">
+                                <label class="custom-file-label" for="inputGroupFile01"></label>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-dark">add</button>
+                </div>
+            </form> 
+        </div>
+    </div>
+</div>
