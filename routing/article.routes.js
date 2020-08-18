@@ -58,10 +58,12 @@ articleRouter.get('/readMore/:id', async(req, res) => {
     })
 });
 
-//sarch in titles or content or both from blogs table
+//sarch in titles or content or both 
 articleRouter.get('/search', async(req, res) => {
     let search = req.query.search;
-    Article.find({ articleTitle: `/^${search}/` }).then((result) => {
+    /* { $regex: "^" + search, $options: 'i' } //to search in string which starting with specific letter or word
+       { $regex: search, $options: 'i' } // to seach in any part in string*/
+    Article.find({ articleTitle: { $regex: search, $options: 'i' } }).then((result) => {
         console.log(result);
         res.render('searchArticle', { result });
     })
