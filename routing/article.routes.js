@@ -1,73 +1,28 @@
 const articleRouter = require('express').Router();
+const articleController = require('../controllers/article.controller');
+const validateController = require('../controllers/validate.controller');
+const { check, validationResult } = require('express-validator');
 const Article = require('../models/model.article');
-
 //get home page
-articleRouter.get('/', (req, res) => {
-    //show all articles in db 
-    Article.find({}).then((result) => {
-        res.render('index', { result });
-    })
-})
+articleRouter.get('/', articleController.getAllArticles)
 
 //save data form of add articles to routeDB in table blogs
-articleRouter.post('/addNewarticle', async(req, res) => {
-    let article = {
-        articleTitle: req.body.articleTitle,
-        articleContent: req.body.articleContent,
-        imageUploaded: req.file.path,
-        publishDate: Date.now()
-    };
-    console.log(article.imageUploaded);
-    Article.insertMany(article).then(() => {
-        res.redirect('/');
-    }).catch(err => { console.log(err); })
-});
+articleRouter.post('/addNewarticle', validateController.validateInput, articleController.addArticle);
 
 //delete selected data from blogs
-articleRouter.get('/delete/:id', async(req, res) => {
-    let id = req.params.id;
-    Article.deleteOne({ _id: id }).then(() => {
-        res.redirect('/');
-    });
-});
+articleRouter.get('/delete/:id', articleController.deleteArticle);
 
 //edit selected data from blogs table
-articleRouter.get('/edit/:id', async(req, res) => {
-    let id = req.params.id;
-    Article.find({ _id: id }).then((result) => {
-        console.log(result);
-        res.render('editArticle', { result });
-    })
-
-});
+articleRouter.get('/edit/:id', articleController.editArticle);
 
 //post edited data to blogs table
-articleRouter.post('/editArticle/:id', async(req, res) => {
-    let id = req.params.id;
-    Article.update({ _id: id }, { articleTitle: req.body.articleTitle, articleContent: req.body.articleContent, imageUploaded: req.file.path }).then(() => {
-        res.redirect('/');
-    })
-});
+articleRouter.post('/editArticle/:id', articleController.postEditedArticle);
 
 //get specific data from blogs table
-articleRouter.get('/readMore/:id', async(req, res) => {
-    let id = req.params.id;
-    Article.find({ _id: id }).then((result) => {
-        console.log(result);
-        res.render('readMorearticle', { result });
-    })
-});
+articleRouter.get('/readMore/:id', articleController.readMoreArticle);
 
 //sarch in titles or content or both 
-articleRouter.get('/search', async(req, res) => {
-    let search = req.query.search;
-    /* { $regex: "^" + search, $options: 'i' } //to search in string which starting with specific letter or word
-       { $regex: search, $options: 'i' } // to seach in any part in string*/
-    Article.find({ articleTitle: { $regex: search, $options: 'i' } }).then((result) => {
-        console.log(result);
-        res.render('searchArticle', { result });
-    })
-});
+articleRouter.get('/search', articleController.searchInArticles);
 
 //export module to be used in server file
 module.exports = articleRouter;
